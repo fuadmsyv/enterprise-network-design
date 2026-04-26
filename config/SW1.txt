@@ -1,0 +1,44 @@
+enable
+configure terminal
+
+hostname SW1
+
+! VLAN-ları yaradırıq
+vlan 10
+name Sales
+
+vlan 20
+name HR
+
+vlan 30
+name IT
+
+! PC-lərin qoşulduğu access portlar
+interface FastEthernet0/1
+switchport mode access
+switchport access vlan 10
+
+interface FastEthernet0/2
+switchport mode access
+switchport access vlan 20
+
+interface FastEthernet0/3
+switchport mode access
+switchport access vlan 30
+
+! Router-a gedən port (TRUNK)
+interface FastEthernet0/24
+switchport mode trunk
+
+! (istəsən VLAN-ları manual da yaza bilərsən)
+switchport trunk allowed vlan 10,20,30
+
+! Portları aktiv edirik
+interface range FastEthernet0/1 - 3
+no shutdown
+
+interface FastEthernet0/24
+no shutdown
+
+end
+write memory
